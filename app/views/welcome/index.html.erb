@@ -1,0 +1,6 @@
+<h1>RailsChat</h1>
+<%= form_with url: login_path, local: true do |f| %>
+  <%= f.text_field :name, placeholder: "Name", required: true %>
+  <%= f.email_field :email, placeholder: "Email", required: true %>
+  <%= f.submit "Start Chat", class: "btn-blue" %>
+<% end %>
