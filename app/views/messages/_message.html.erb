@@ -1,0 +1,11 @@
+<div id="<%= dom_id(message) %>" class="flex items-start space-x-3 py-2">
+  <%= image_tag gravatar_url(message.user.email, size: 32),
+                class: "rounded-full" %>
+  <div>
+    <div class="flex items-baseline space-x-2">
+      <strong><%= message.user.name %></strong>
+      <span class="text-xs text-gray-400"><%= message.created_at.strftime("%H:%M") %></span>
+    </div>
+    <p class="mt-1"><%= message.content %></p>
+  </div>
+</div>

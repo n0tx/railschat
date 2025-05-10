@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
       u.name = params[:name]
     end
     session[:user_id] = user.id
-    redirect_to dashboard_path
+    redirect_to dashboard_path, status: :see_other
   end
 
   def destroy
