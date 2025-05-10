@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get "rooms/index"
+  get "rooms/new"
+  get "rooms/create"
+  get "rooms/show"
   get "sessions/create"
   get "sessions/destroy"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
