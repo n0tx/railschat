@@ -1,3 +1,4 @@
+<%# app/views/messages/_message.html.erb %>
 <div id="<%= dom_id(message) %>" class="flex items-start space-x-3 py-2">
   <%= image_tag gravatar_url(message.user.email, size: 32),
                 class: "rounded-full" %>

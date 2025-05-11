@@ -1,6 +1,31 @@
-<h1>RailsChat</h1>
-<%= form_with url: login_path, local: true do |f| %>
-  <%= f.text_field :name, placeholder: "Name", required: true %>
-  <%= f.email_field :email, placeholder: "Email", required: true %>
-  <%= f.submit "Start Chat", class: "btn-blue" %>
-<% end %>
+<div class="w-screen flex items-center justify-center">
+  <div class="w-full max-w-md bg-white p-8 rounded-xl shadow-lg">
+    <h1 class="text-4xl font-extrabold text-center text-blue-600 mb-8">
+      RailsChat
+    </h1>
+    <%= form_with url: login_path, local: true, class: "space-y-6" do |f| %>
+      <div>
+        <%= f.label :name, "Name",
+              class: "block text-sm font-medium text-gray-600 mb-1" %>
+        <%= f.text_field :name, placeholder: "Your name", required: true,
+              class: "mt-1 block w-full px-4 py-2 bg-gray-50 border
+                      border-gray-200 rounded-lg shadow-inner
+                      focus:outline-none focus:ring-2 focus:ring-blue-300" %>
+      </div>
+      <div>
+        <%= f.label :email, "Email",
+              class: "block text-sm font-medium text-gray-600 mb-1" %>
+        <%= f.email_field :email, placeholder: "you@example.com", required: true,
+              class: "mt-1 block w-full px-4 py-2 bg-gray-50 border
+                      border-gray-200 rounded-lg shadow-inner
+                      focus:outline-none focus:ring-2 focus:ring-blue-300" %>
+      </div>
+      <div>
+        <%= f.submit "Start Chat",
+              class: "w-full py-2 px-4 bg-blue-600 hover:bg-blue-700
+                      text-white font-semibold rounded-lg shadow-md
+                      transform hover:-translate-y-0.5 transition-all duration-200" %>
+      </div>
+    <% end %>
+  </div>
+</div>

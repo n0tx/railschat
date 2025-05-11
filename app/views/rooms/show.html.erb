@@ -1,34 +1,63 @@
-<div class="h-screen flex">
-  <!-- Sidebar peserta -->
-  <aside class="w-64 bg-white p-4 border-r">
-    <h2>Participants</h2>
-    <ul>
+<!-- app/views/rooms/show.html.erb -->
+<div class="h-screen flex w-screen bg-gray-100">
+
+  <!-- Sidebar Members -->
+  <aside class="w-72 bg-white p-4 border-r shadow-sm">
+    <h2 class="text-lg font-semibold mb-4">🗂️ Members</h2>
+    <ul class="space-y-3 divide-y divide-gray-200">
       <% @room.messages.map(&:user).uniq.each do |u| %>
-        <li><%= u.name %></li>
+        <li class="flex items-center py-2">
+          <%= image_tag gravatar_url(u.email, size: 32),
+                        class: "w-8 h-8 rounded-full mr-3" %>
+          <span class="text-gray-700"><%= u.name %></span>
+        </li>
       <% end %>
     </ul>
   </aside>
 
-  <!-- Area chat -->
-  <div class="flex-1 flex flex-col">
+  <!-- Main Chat Area -->
+  <div class="flex-1 flex flex-col min-h-0" 
+    data-controller="reset"
+    data-reset-target="messages">
     <!-- Header room -->
-    <header class="p-4 border-b flex justify-between">
-      <h1><%= @room.name %></h1>
-      <%= link_to "Back", dashboard_path, class: "text-blue-600 hover:underline" %>
+    <header class="flex justify-between items-center p-6 bg-white border-b shadow-sm">
+      <h1 class="text-2xl font-bold text-gray-800"><%= @room.name %></h1>
+      <%= link_to dashboard_path,
+                 class: "inline-flex items-center px-4 py-2 border border-blue-600
+                         text-blue-600 font-medium rounded-lg hover:bg-blue-50 transition" do %>
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 19l-7-7 7-7" />
+        </svg>
+        Back
+      <% end %>
     </header>
 
-    <!-- Container pesan dengan Stimulus -->
-    <div
-      id="messages"
-      data-controller="reset"
-      data-reset-target="messages"
-      class="flex-1 overflow-y-auto p-4 space-y-4 bg-white"
-    >
+    <!-- Messages container -->
+    <div id="messages" data-reset-target="messages"
+         class="flex-1 overflow-y-auto p-6 bg-gray-50">
       <%= turbo_stream_from @room %>
       <%= render @messages %>
+      <div class="space-y-4 max-w-2xl mx-auto">
+        <% @messages.each do |msg| %>
+          <div class="flex items-start space-x-3">
+            <%= image_tag gravatar_url(msg.user.email, size: 36),
+                          class: "w-9 h-9 rounded-full shadow-xs" %>
+            <div class="bg-white p-4 rounded-2xl shadow-sm">
+              <div class="flex items-center space-x-2 mb-2">
+                <span class="font-semibold text-gray-800"><%= msg.user.name %></span>
+                <span class="text-sm text-gray-500">
+                  <%= msg.created_at.in_time_zone('Asia/Jakarta').strftime("%d %b %Y, %H:%M") %>
+                </span>
+              </div>
+              <p class="text-gray-700"><%= msg.content %></p>
+            </div>
+          </div>
+        <% end %>
+      </div>
     </div>
 
-    <!-- Form kirim pesan -->
+     <!-- Form kirim pesan -->
     <div class="p-4 border-t bg-white">
       <%= turbo_frame_tag "new_message" do %>
         <%= form_with model: [@room, @message],
