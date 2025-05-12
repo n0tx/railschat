@@ -35,7 +35,12 @@ Rails.application.configure do
 
   # Log to STDOUT with the current request id as a default log tag.
   config.log_tags = [ :request_id ]
-  config.logger   = ActiveSupport::TaggedLogging.logger(STDOUT)
+  # config.logger   = ActiveSupport::TaggedLogging.logger(STDOUT)
+  if ENV["RAILS_LOG_TO_STDOUT"].present?
+    logger           = ActiveSupport::Logger.new($stdout)
+    logger.formatter = config.log_formatter
+    config.logger    = ActiveSupport::TaggedLogging.new(logger)
+  end
 
   # Change to "debug" to log everything (including potentially personally-identifiable information!)
   config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
@@ -47,11 +52,13 @@ Rails.application.configure do
   config.active_support.report_deprecations = false
 
   # Replace the default in-process memory cache store with a durable alternative.
-  config.cache_store = :solid_cache_store
+  # config.cache_store = :solid_cache_store
+  config.cache_store = :memory_store
 
   # Replace the default in-process and non-durable queuing backend for Active Job.
-  config.active_job.queue_adapter = :solid_queue
-  config.solid_queue.connects_to = { database: { writing: :queue } }
+  # config.active_job.queue_adapter = :solid_queue
+  config.active_job.queue_adapter = :async
+  # config.solid_queue.connects_to = { database: { writing: :queue } }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
@@ -87,4 +94,10 @@ Rails.application.configure do
   #
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+
+  # enable static files in local environment
+  config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
+
+  # get secret key from local ENV, for production
+  config.secret_key_base = ENV.fetch("SECRET_KEY_BASE")
 end
