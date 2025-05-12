@@ -37,7 +37,6 @@
     <div id="messages" data-reset-target="messages"
          class="flex-1 overflow-y-auto p-6 bg-gray-50">
       <%= turbo_stream_from @room %>
-      <%= render @messages %>
       <div class="space-y-4 max-w-2xl mx-auto">
         <% @messages.each do |msg| %>
           <div class="flex items-start space-x-3">
