@@ -1,1 +1,1 @@
-release: sh -c "bin/rails db:drop db:create db:migrate"
+release: bin/rails db:migrate
