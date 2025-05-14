@@ -6,7 +6,7 @@ class MessagesController < ApplicationController
     @message.save!
     respond_to do |format|
       format.turbo_stream
-      format.html { redirect_to @message.room, status: :see_other }
+      format.html { redirect_to @room, status: :see_other }
     end
   end
 
