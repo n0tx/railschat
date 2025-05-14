@@ -1,5 +1,5 @@
 <%# app/views/messages/_message.html.erb %>
-<div id="<%= message.id %>" class="flex-1 overflow-y-auto p-4 bg-gray-50">
+<div id="<%= dom_id(message) %>" class="flex-1 overflow-y-auto p-4 bg-gray-50">
   <div class="space-y-2 max-w-2xl mx-auto">
   <div class="flex items-start space-x-3">
     <%= image_tag gravatar_url(message.user.email, size: 36),
